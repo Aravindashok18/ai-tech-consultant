@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Tech Consultant — Project Overview</title>
+<meta name="description" content="Project overview of the AI Tech Consultant capstone: a knowledge brain, an inbox agent and a meeting-to-scope agent team. Static page, not the running app.">
+<style>
+  :root {
+    --bg: #fafaf7;
+    --card: #ffffff;
+    --ink: #1c1f24;
+    --muted: #5b6270;
+    --line: #dcdfe5;
+    --accent: #2f5fd0;
+    --accent-soft: #e8eefc;
+    --warn-bg: #fff3d6;
+    --warn-line: #e0b84a;
+    --warn-ink: #5a4300;
+    --code-bg: #f1f2f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --card: #1c1f25;
+      --ink: #e8eaee;
+      --muted: #a2a9b6;
+      --line: #313641;
+      --accent: #8aa9f5;
+      --accent-soft: #232b40;
+      --warn-bg: #3a2f10;
+      --warn-line: #8a6d1c;
+      --warn-ink: #f3dca0;
+      --code-bg: #232731;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 64px; }
+  .banner {
+    background: var(--warn-bg);
+    border-bottom: 1px solid var(--warn-line);
+    color: var(--warn-ink);
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  .banner .wrap { padding-bottom: 0; }
+  .banner strong { font-weight: 650; }
+  header { padding: 40px 0 8px; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.01em; }
+  h2 { font-size: 22px; margin: 48px 0 12px; letter-spacing: -0.005em; }
+  h3 { font-size: 17px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; }
+  a { color: var(--accent); }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .links a {
+    display: inline-block; padding: 8px 14px; border: 1px solid var(--line);
+    border-radius: 8px; background: var(--card); text-decoration: none; font-size: 15px;
+  }
+  .links a:hover { border-color: var(--accent); }
+  .grid { display: grid; gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  }
+  .card .tag { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .card ul { margin: 8px 0 0; padding-left: 20px; }
+  .card li { margin: 4px 0; }
+  .status { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14px; color: var(--muted); }
+  code, pre { font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--code-bg); padding: 14px 16px; border-radius: 10px; overflow-x: auto; margin: 0; }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; background: var(--accent-soft); }
+  tr:last-child td { border-bottom: 0; }
+  /* diagram */
+  figure { margin: 0; }
+  .diagram-svg { display: none; width: 100%; height: auto; }
+  .diagram-svg .box { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+  .diagram-svg .brain { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .diagram-svg .ext { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .diagram-svg text { fill: var(--ink); font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .diagram-svg .small { font-size: 12.5px; fill: var(--muted); }
+  .diagram-svg .title { font-weight: 650; font-size: 15px; }
+  .diagram-svg .arrow { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+  .diagram-svg .head { fill: var(--muted); }
+  .diagram-list { margin: 0; padding-left: 22px; }
+  .diagram-list li { margin: 6px 0; }
+  figcaption { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  @media (min-width: 640px) {
+    .diagram-svg { display: block; }
+    .diagram-list { display: none; }
+  }
+  @media (min-width: 720px) {
+    .grid.three { grid-template-columns: 1fr; }
+  }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="banner" role="note">
+  <div class="wrap">
+    <strong>This is a project overview, not the running app.</strong>
+    This page is static. Nothing here answers questions, reads email or builds proposals. The three services run on your own machine (ports 8000, 8001, 8002); see <a href="#run">how to run them</a>.
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1>AI Tech Consultant</h1>
+    <p class="lede">One system for a software or service business: it knows the product, answers the inbox, and turns client meetings into a scope of work, an estimate and a proposal. Built as a four-day capstone for Business Labs.</p>
+    <div class="links">
+      <a href="https://github.com/Aravindashok18/ai-tech-consultant">Source code on GitHub</a>
+      <a href="https://github.com/Aravindashok18/ai-tech-consultant/blob/main/DESIGN.md">DESIGN.md</a>
+      <a href="https://github.com/Aravindashok18/ai-tech-consultant/blob/main/README.md">README.md</a>
+    </div>
+  </header>
+
+  <h2>Why this exists</h2>
+  <p>Code is now cheap. A website change that cost a small business about $2,000 two years ago costs about $200 today, so a tech company has to do 10 to 20 times more projects to pay the same salaries. The slow part is no longer coding. It is everything around it:</p>
+  <ul>
+    <li>knowing the product inside out,</li>
+    <li>answering every customer email quickly and correctly,</li>
+    <li>and turning a long client call into work a developer can estimate.</li>
+  </ul>
+  <p>Each task removes one of those bottlenecks. A wrong answer is worse than a slow one, so every part can say "I don't know" and hand over to a person.</p>
+
+  <h2>How the three tasks connect</h2>
+  <figure>
+    <svg class="diagram-svg" viewBox="0 0 760 470" role="img" aria-labelledby="dtitle ddesc" xmlns="http://www.w3.org/2000/svg">
+      <title id="dtitle">How the three tasks connect</title>
+      <desc id="ddesc">The Knowledge Brain reads a public help center and is helped by a human expert. The Inbox Agent and the Scope Agents each call the Knowledge Brain with POST /v1/ask. Customer email goes into the Inbox Agent, meeting transcripts go into the Scope Agents, and a human reviews the output of each.</desc>
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="head"/>
+        </marker>
+      </defs>
+
+      <!-- Row 1 -->
+      <rect class="ext" x="10" y="38" width="170" height="64" rx="10"/>
+      <text x="95" y="66" text-anchor="middle">Public help center</text>
+      <text x="95" y="86" text-anchor="middle" class="small">+ sitemap, read daily</text>
+
+      <rect class="brain" x="215" y="20" width="330" height="100" rx="12"/>
+      <text x="380" y="46" text-anchor="middle" class="title">Task 1 · Knowledge Brain · :8000</text>
+      <text x="380" y="68" text-anchor="middle" class="small">polite crawl · screenshot captions · hybrid search</text>
+      <text x="380" y="88" text-anchor="middle" class="small">cited answers · says "I don't know"</text>
+      <text x="380" y="108" text-anchor="middle" class="small">expert answers flow back into memory</text>
+
+      <rect class="ext" x="580" y="38" width="170" height="64" rx="10"/>
+      <text x="665" y="66" text-anchor="middle">Human expert</text>
+      <text x="665" y="86" text-anchor="middle" class="small">answers open questions</text>
+
+      <line class="arrow" x1="180" y1="70" x2="213" y2="70" marker-end="url(#ah)"/>
+      <line class="arrow" x1="580" y1="70" x2="547" y2="70" marker-end="url(#ah)"/>
+
+      <!-- Row 2 -->
+      <rect class="box" x="40" y="225" width="320" height="110" rx="12"/>
+      <text x="200" y="252" text-anchor="middle" class="title">Task 2 · Inbox Agent · :8001</text>
+      <text x="200" y="274" text-anchor="middle" class="small">classify → draft → human → learn</text>
+      <text x="200" y="294" text-anchor="middle" class="small">Human sends or edits every draft.</text>
+      <text x="200" y="314" text-anchor="middle" class="small">Auto-send is earned per kind, then revocable.</text>
+
+      <rect class="box" x="400" y="225" width="320" height="110" rx="12"/>
+      <text x="560" y="252" text-anchor="middle" class="title">Task 3 · Scope Agents · :8002</text>
+      <text x="560" y="274" text-anchor="middle" class="small">extract → check settings → estimate → review</text>
+      <text x="560" y="294" text-anchor="middle" class="small">→ proposal. Meeting 2 updates the scope.</text>
+      <text x="560" y="314" text-anchor="middle" class="small">Nothing is exported until a person approves.</text>
+
+      <!-- calls to Task 1 -->
+      <line class="arrow" x1="230" y1="223" x2="320" y2="122" marker-end="url(#ah)"/>
+      <line class="arrow" x1="530" y1="223" x2="440" y2="122" marker-end="url(#ah)"/>
+      <text x="258" y="180" text-anchor="end" class="small">POST /v1/ask</text>
+      <text x="502" y="180" class="small">POST /v1/ask</text>
+
+      <!-- Row 3 inputs -->
+      <rect class="ext" x="40" y="395" width="320" height="52" rx="10"/>
+      <text x="200" y="426" text-anchor="middle">Customer emails</text>
+      <rect class="ext" x="400" y="395" width="320" height="52" rx="10"/>
+      <text x="560" y="426" text-anchor="middle">Client meeting transcripts</text>
+      <line class="arrow" x1="200" y1="393" x2="200" y2="337" marker-end="url(#ah)"/>
+      <line class="arrow" x1="560" y1="393" x2="560" y2="337" marker-end="url(#ah)"/>
+    </svg>
+    <ol class="diagram-list">
+      <li><strong>Task 1 · Knowledge Brain (:8000)</strong> reads the public help center and its sitemap, and a human expert answers what it cannot.</li>
+      <li><strong>Task 2 · Inbox Agent (:8001)</strong> takes customer emails and asks Task 1 with <code>POST /v1/ask</code>. A human sends or edits each draft.</li>
+      <li><strong>Task 3 · Scope Agents (:8002)</strong> takes meeting transcripts and asks Task 1 the same way. A person must approve before anything is exported.</li>
+    </ol>
+    <figcaption>Tasks 2 and 3 only reach Task 1 over HTTP, never by importing its code. If Task 1 is down, Task 2 forces human review and Task 3 adds a risk note.</figcaption>
+  </figure>
+
+  <h2>The three tasks</h2>
+  <div class="grid three">
+
+    <section class="card">
+      <div class="tag">Task 1 · Python (FastAPI) · port 8000</div>
+      <h3>Knowledge Brain</h3>
+      <p>Memory and chatbot for the Brilliant Directories help center, kept in step with it.</p>
+      <ul>
+        <li><strong>Polite first read:</strong> one shared limit of 1 request per second plus jitter, robots.txt respected, backs off on 429/5xx. Every URL sits in a queue table, so a stopped crawl resumes where it left off.</li>
+        <li><strong>Screenshots count:</strong> each image is captioned once, cached by image hash, and stored as a searchable chunk tied to its article.</li>
+        <li><strong>Daily freshness:</strong> compares sitemap <code>lastmod</code> with memory, fetches only new or changed pages, deletes removed ones, and refuses to delete more than 25% in one run (that would mean a broken sitemap).</li>
+        <li><strong>Answers with sources:</strong> BM25 plus local <code>bge-small</code> vectors, then a cited answer. When the sources don't contain the answer, it opens a task for a human expert, and the expert's reply is stored as a page that ranks slightly higher next time.</li>
+        <li><strong>API:</strong> <code>POST /v1/ask</code>, <code>/v1/search</code>, <code>GET /v1/articles</code>, <code>/v1/tasks</code>, <code>POST /v1/tasks/{id}/answer</code>, <code>/v1/feedback</code>, <code>/v1/admin/sync</code>, <code>GET /v1/stats</code>.</li>
+      </ul>
+      <div class="status"><strong>Status:</strong> offline tests and a live crawl have run. Claude image captions and generated answers have not been run yet.</div>
+    </section>
+
+    <section class="card">
+      <div class="tag">Task 2 · Python (FastAPI) · port 8001</div>
+      <h3>Inbox Agent</h3>
+      <p>Reads each customer email, gets facts from Task 1, drafts a reply, and learns from what the human does with it.</p>
+      <ul>
+        <li><strong>Flow:</strong> classify (12 kinds, urgency, risk flags) → ask Task 1 → draft in a JSON schema → human sends, edits, or writes their own.</li>
+        <li><strong>What it learns:</strong> each edit becomes up to 2 short rules (for example "open with the answer") that go into the next prompt. Every rule can be undone in the UI.</li>
+        <li><strong>Autopilot is earned:</strong> a kind of email may auto-send after 20 drafts in a row sent unchanged (text similarity ≥ 0.97), and only with confidence ≥ 0.8, no risk flags and a verified answer. Refund, cancellation, complaint, legal, billing and quote never auto-send.</li>
+        <li><strong>Autopilot is revocable:</strong> 10% of auto-sent mail is spot-checked. One "wrong" verdict, or 3 edits in the last 10 human-handled mails of that kind, switches it off and restarts the streak.</li>
+        <li><strong>Safety:</strong> email text is treated as data; prompt-injection phrases force human review.</li>
+      </ul>
+      <div class="status"><strong>Status:</strong> 50 sample emails written by the author. The only measured result is the offline keyword fallback: 78% correct on those 50 (no model involved, so not a Claude result). Claude classification and drafting have not been run yet. Sending writes to an outbox table; there is no real mailbox.</div>
+    </section>
+
+    <section class="card">
+      <div class="tag">Task 3 · Python (FastAPI) · port 8002</div>
+      <h3>Meeting to Scope of Work</h3>
+      <p>Turns messy client transcripts into a scope, an hours estimate and a client-ready proposal draft.</p>
+      <ul>
+        <li><strong>Agents with one job each:</strong> extractor, settings checker (calls Task 1), estimator, clarifier, senior reviewer, reconciler, proposal writer. They pass JSON with stable ids (R1…, T1…).</li>
+        <li><strong>Setting before custom code:</strong> each requirement is checked against the help center. If an existing setting does the job, the proposal shows the article and the hours saved.</li>
+        <li><strong>Long transcripts:</strong> split on speaker turns into windows of about 6,000 characters with 2 turns of overlap, read in parallel, near-duplicates merged.</li>
+        <li><strong>Meeting 2 updates, not restarts:</strong> each item is marked same, changed, dropped or new. New items become priced change requests, labelled as extra.</li>
+        <li><strong>Money is code, not model:</strong> prices, totals, day counts and the 15% project-management margin are computed deterministically. The model supplies hours and prose only.</li>
+        <li><strong>Human gate:</strong> versions start as drafts; the export endpoint returns 409 until a named person approves.</li>
+      </ul>
+      <div class="status"><strong>Status:</strong> offline tests have run. The Claude agents have not been run yet, and the offline fallback uses flat placeholder hours that must not be shown to a client. The three sample transcripts are scripted by the author, not recorded meetings.</div>
+    </section>
+
+  </div>
+
+  <h2>Decisions and trade-offs</h2>
+  <table>
+    <thead><tr><th>Choice</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>SQLite with full-text and vector blobs instead of a vector database</td><td>About 1,500 articles fit in memory. One file is easy to run and back up.</td></tr>
+      <tr><td>Local embeddings</td><td>No per-query cost, and nothing leaves the machine.</td></tr>
+      <tr><td>All three tasks in Python</td><td>The brief allows Python for Task 2, and it avoids mixing languages.</td></tr>
+      <tr><td>Haiku for high-volume steps, Sonnet for answers, drafts and estimates</td><td>This is a hypothesis. The model-comparison evals that would prove it have not been run.</td></tr>
+      <tr><td>Dropped: real Gmail/SMTP, vector database or knowledge graph, voice recording of meetings</td><td>OAuth setup is out of scope; the data is too small to need the others; transcripts are pasted as text.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Where it is weak</h2>
+  <ul>
+    <li>The "I don't know" decision depends on the model. The vector-similarity gate is weak: off-topic questions still scored about 0.58 in a 30-page sample.</li>
+    <li>"Unchanged draft" is judged by character similarity, so a short edit that flips the meaning ("can" to "cannot") could look unchanged.</li>
+    <li>The Claude-powered paths in all three tasks have not been run, so quality, cost and speed for them are not measured. There are no model-comparison results yet.</li>
+    <li>Approval in Task 3 is a typed name, not a login, and the APIs have no user authentication.</li>
+  </ul>
+  <p>Status as of 16 October 2026. The repository is the source of truth if it has moved on since.</p>
+
+  <h2 id="run">Run it yourself</h2>
+  <p>Needs Python 3.12 and an Anthropic API key. Without a key, Task 1 gives extractive answers and no image captions, and Tasks 2 and 3 use crude offline fallbacks.</p>
+  <pre><code>git clone https://github.com/Aravindashok18/ai-tech-consultant.git
+cd ai-tech-consultant
+cp task1-knowledge-brain/.env.example task1-knowledge-brain/.env   # add ANTHROPIC_API_KEY
+./run_all.sh</code></pre>
+  <p style="margin-top:12px">Then open <code>localhost:8000</code> (chat and expert queue), <code>localhost:8001</code> (inbox) and <code>localhost:8002</code> (scope). API docs are at <code>/docs</code> on each port. Tests are offline: run <code>pytest</code> inside each task folder.</p>
+
+  <footer>
+    Project overview page for the AI Tech Consultant capstone. Static HTML; no backend runs from this page.
+    <a href="https://github.com/Aravindashok18/ai-tech-consultant">View the repository</a>.
+  </footer>
+</div>
+</body>
+</html>
