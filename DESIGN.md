@@ -67,7 +67,7 @@ Haiku for classification, captions, reconciliation (cheap, high volume); Sonnet 
 
 ## What breaks (known)
 - Claude paths are untested live. Offline fallbacks are crude (see EVALS.md).
-- The cosine gate for "I don't know" is weak with `bge-small` (off-topic questions scored ~0.58 in a 30-page sample); the real gate is Claude's `can_answer`.
+- The cosine gate for "I don't know" is weak with `bge-small`: on the full index 6 off-topic questions scored up to 0.65 against a gate of 0.5, so none was stopped there (in-domain best hits scored 0.72 or more; see EVALS.md). The real gate is Claude's `can_answer`, which is unmeasured.
 - Screenshots with sign-in-only URLs may not download; those get alt text only.
 - Auto-send similarity is character-based, so a meaning-changing edit with few characters (e.g. "can" → "cannot") can look "unchanged". A semantic check would fix it.
 - Estimates from the offline fallback are flat defaults and meaningless; only Claude estimates should be shown to anyone.

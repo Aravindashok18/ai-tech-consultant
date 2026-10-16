@@ -18,4 +18,4 @@ cp task1-knowledge-brain/.env.example task1-knowledge-brain/.env   # add ANTHROP
 Tests: `pytest` inside each task folder (offline, no key needed).
 
 ## Status, honestly
-Built and tested offline: everything in the three READMEs. **Not yet run with a Claude key:** image captioning, generated answers, Claude classification/drafting/estimation, and therefore the model-comparison evals. See [EVALS.md](EVALS.md) for what is measured and what is not, and [DESIGN.md](DESIGN.md) for the reasoning and known failures.
+Built and tested offline: everything in the three READMEs (26 tests pass). Measured offline: retrieval on the 1,536-article index (right article in the top 3 for 27 of 27 questions) and the keyword fallback classifier (78% on 50 emails). **Not yet run with a Claude key:** image captioning, generated answers, Claude classification/drafting/estimation, and therefore the model-comparison evals. See [EVALS.md](EVALS.md) for what is measured and what is not, and [DESIGN.md](DESIGN.md) for the reasoning and known failures.

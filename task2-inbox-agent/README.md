@@ -33,4 +33,4 @@ Email text is treated as data (prompt-injection flagged and forced to human revi
 ## Not done yet (honest)
 - Claude paths (classify/draft/lessons) are unrun: no API key. Offline fallbacks (keyword classifier ≈ crude, template draft) are tested.
 - No real mailbox: sending writes to an `outbox` table; swap `Inbox._send` for Gmail/SMTP.
-- No evals yet: need a simulated-human script to show edit-similarity rising over the 50 emails, plus model comparison (Sonnet vs Haiku) with cost and speed.
+- Only the offline keyword classifier is measured (78% on the 50 seed emails, which the author wrote; `python evals/classify_eval.py`). Still needed: a simulated-human script to show edit-similarity rising over the 50 emails, and a Sonnet vs Haiku comparison with cost and speed. See [EVALS.md](../EVALS.md).
