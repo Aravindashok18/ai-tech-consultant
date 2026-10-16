@@ -1,0 +1,18 @@
+Consultant: Thanks for joining, Dana. Tell me what you're trying to build.
+Dana: So we run Paws & Co, a pet services network, groomers, walkers, vets, in about four cities. We want a directory site where pet owners find providers and providers pay us a monthly fee to be listed.
+Consultant: Great. How do providers pay?
+Dana: Two plans, basic at nineteen a month and premium at forty-nine. Premium providers should show up first in search and get a featured badge. We need card payments, Stripe I guess.
+Consultant: Okay. And the search?
+Dana: Make the search better than what we saw on the demo. People should filter by city, by type of service, and by rating. Right now it's just a text box.
+Consultant: Noted. What about getting providers onto the site?
+Dana: We already have about three hundred providers in a spreadsheet. We want them imported, and they should get a welcome email that sounds like us, friendly, not corporate.
+Consultant: Do you have a domain?
+Dana: We bought pawsandco.com last year and we need that domain to point to the new site.
+Consultant: Design?
+Dana: We have a logo and brand colours. I want the homepage to have a big search bar and a map of our cities. Oh, and when we share on Facebook it should show our picture, not some random one.
+Consultant: Anything you don't want?
+Dana: No mobile app, not now. And no booking system, providers handle bookings themselves.
+Consultant: Timeline and budget?
+Dana: Launch by end of November. Budget, honestly we'd like to stay under maybe four thousand dollars.
+Consultant: Who writes the content, like the about page and the FAQ?
+Dana: Me. I'll write those, I just need the pages to exist.

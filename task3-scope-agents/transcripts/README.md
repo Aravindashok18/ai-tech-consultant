@@ -1,0 +1,1 @@
+These three transcripts are **scripted samples written by the author** to exercise the pipeline (A1 + A2 are the same client, A2 changes A1; B is a second client with a long, messy call). The brief asks for transcripts from role-played, recorded meetings: replace or add to these with your own recordings before submitting.

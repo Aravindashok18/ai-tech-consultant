@@ -1,0 +1,20 @@
+Consultant: Hi Raj, thanks for making the time. Walk me through the situation.
+Raj: Yeah so, we're a small legal-services marketplace, lawyers and clients, and we've been on a WordPress thing that's just falling over. Honestly it's a bit of a mess, the previous guy left half the stuff undone.
+Consultant: What are the top problems?
+Raj: Number one, the search. It returns junk. If I type divorce lawyer Chicago I get a plumber. It needs to just work, you know, relevance, location.
+Consultant: Okay. Number two?
+Raj: Lawyers should have profiles with their practice areas, bar number, photos, and reviews from clients. Reviews need moderating, I don't want anyone posting rubbish, I'll approve each one.
+Consultant: Anything on payments?
+Raj: Lawyers pay a yearly fee, one thousand two hundred, and we also take a lead fee when a client contacts them. Fifty bucks per lead, charged to the lawyer's card.
+Consultant: How do leads reach lawyers?
+Raj: Contact form on the profile, goes to the lawyer by email and also shows in a dashboard on the site. Also SMS, maybe. I'm not sure, let's say email first.
+Consultant: How many lawyers?
+Raj: Around eight hundred now. Hoping for five thousand in two years. That's a lot, so it has to scale. Oh and we have to be GDPR compliant, we get EU clients, there's a cookie banner thing and people can ask us to delete data.
+Consultant: Content?
+Raj: There's about two hundred blog articles on the old site. Those need to move across, same URLs please, SEO matters a lot to us.
+Consultant: Admin side?
+Raj: I want a report every week, how many leads, which cities, revenue. Emailed to me automatically. And I want to be able to change the homepage banner myself without calling anyone.
+Consultant: Integrations?
+Raj: We use Salesforce for sales. Leads should flow into Salesforce. Actually, that's maybe phase two, don't price it yet. And we want the site in English and Spanish eventually, not now.
+Consultant: Deadline?
+Raj: End of January, there's a conference in February where we want to show it.

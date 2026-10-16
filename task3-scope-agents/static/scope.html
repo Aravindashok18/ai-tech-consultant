@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scope Agents</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1c1c1a;--card:#fff;--mut:#6b6b66;--ac:#2f5fd0;--bd:#e2e2dc;--ok:#15803d}
+@media(prefers-color-scheme:dark){:root{--bg:#161616;--fg:#eee;--card:#222;--mut:#9a9a94;--ac:#7aa2ff;--bd:#333;--ok:#4ade80}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}main{max-width:860px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:12px 0}
+textarea,input{width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:inherit}
+textarea{min-height:160px}button{padding:9px 14px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer;margin:6px 6px 0 0}
+button.g{background:none;color:var(--mut);border:1px solid var(--bd)}pre{white-space:pre-wrap;font:inherit}.mut{color:var(--mut);font-size:13px}.ok{color:var(--ok)}
+</style></head><body><main>
+<h1>Meeting → Scope of Work</h1>
+<div class=card><b>1. Client</b><input id=client placeholder="Client name"><button onclick="mk()">Start project</button> <span id=pid class=mut></span></div>
+<div class=card><b>2. Add a meeting transcript</b> <span class=mut>(first meeting creates the scope, next ones update it)</span>
+<input id=label placeholder="Label, e.g. Kickoff call"><textarea id=tx placeholder="Paste transcript: one speaker turn per line"></textarea><button onclick="add()">Analyze</button> <span id=st class=mut></span></div>
+<div class=card id=out style="display:none"><b>3. Review</b> <span id=ver class=mut></span><pre id=md></pre>
+<input id=who placeholder="Your name (to approve)"><button onclick="appr()">Approve for client</button><button class=g onclick="rej()">Reject</button><a id=ex href="#" style="display:none">Open client version</a></div>
+</main><script>
+const $=id=>document.getElementById(id);let pid=null,v=null;
+const post=(u,b)=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})});
+async function mk(){const r=await (await post('/v1/projects',{client:$('client').value||'Client'})).json();pid=r.project_id;$('pid').textContent='project #'+pid}
+async function add(){if(!pid)return alert('Start a project first');$('st').textContent='Agents working… (can take a minute)';
+ const r=await post(`/v1/projects/${pid}/meetings`,{label:$('label').value||'Meeting',transcript:$('tx').value});
+ if(!r.ok){$('st').textContent='Error '+r.status;return}const d=await r.json();v=d.version;$('st').textContent='';show()}
+async function show(){const d=await (await fetch(`/v1/projects/${pid}/versions/${v}`)).json();$('out').style.display='block';$('ver').textContent=`version ${v} · ${d.status}`;$('md').textContent=d.proposal_md}
+async function appr(){if(($('who').value||'').length<2)return alert('Type your name');await post(`/v1/projects/${pid}/versions/${v}/approve`,{approved_by:$('who').value});show();$('ex').href=`/v1/projects/${pid}/versions/${v}/export`;$('ex').style.display='inline';$('ex').target='_blank'}
+async function rej(){await post(`/v1/projects/${pid}/versions/${v}/reject`);show()}
+</script></body></html>

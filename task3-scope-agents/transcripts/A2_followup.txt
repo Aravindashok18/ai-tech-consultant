@@ -1,0 +1,12 @@
+Consultant: Thanks Dana. Last time we agreed on the directory, plans, search, import and so on. What's changed?
+Dana: A few things. First, I talked to the team and the search filter by rating, we don't need it. Forget the rating filter, city and service type are enough.
+Consultant: Fine, dropping rating.
+Dana: Second, the two plans. We now want three plans, basic, premium and a new gold one at ninety-nine with a photo gallery for the provider.
+Consultant: A photo gallery on profiles. That's new.
+Dana: Yes. And also, can you build us a booking calendar so owners can book a groomer right on the site? I know I said no before but providers are asking.
+Consultant: That's a big one. That's a custom booking system, not part of what we agreed.
+Dana: I understand. Just give me a price for it separately.
+Consultant: Okay. Anything else?
+Dana: The welcome email, I want to also send a monthly newsletter to all providers from the site.
+Consultant: And the launch date?
+Dana: Still end of November. The import and the domain stay exactly the same.
