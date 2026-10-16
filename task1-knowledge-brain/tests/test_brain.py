@@ -23,6 +23,20 @@ def test_parser_extracts_structure_and_images():
     assert "Link: x" not in art.text
 
 
+REAL_BREADCRUMB = (
+    '<div class="breadcrumb"><a href="/support/solutions"> Solution home </a>'
+    '<a href="/support/solutions/12000001358">Get Started Here</a>'
+    '<a href="/support/solutions/folders/12000006926">Changelog - Software Updates</a>'
+    f'<a title="x" href="{BASE}/12000030685-x"> x </a></div>'
+    '<article id="article-body"><h1 class="post-title">06/02/17 - Software Updates</h1><p>Fixed a bug.</p></article>')
+
+
+def test_parser_reads_category_without_section_label():
+    # Real help-center pages link the category as /support/solutions/<id> with no "Section:" prefix.
+    art = parse_article(REAL_BREADCRUMB, f"{BASE}/12000030685")
+    assert (art.category, art.folder) == ("Get Started Here", "Changelog - Software Updates")
+
+
 def test_sitemap_canonical_id():
     assert canonical(f"{BASE}/123-some-slug") == f"{BASE}/123"
     xml = f"<urlset><url><loc>{BASE}/9-a</loc><lastmod>2026-01-01</lastmod></url><url><loc>https://x/support/home</loc></url></urlset>"

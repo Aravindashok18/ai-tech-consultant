@@ -92,10 +92,10 @@ def parse_article(html: str, url: str) -> ParsedArticle | None:
     for a in tree.css(".breadcrumb a"):
         t = _clean(a.text())
         href = a.attributes.get("href") or ""
-        if t.startswith("Section:"):
-            category = t.removeprefix("Section:").strip()
-        elif "/solutions/folders/" in href:
+        if "/solutions/folders/" in href:
             folder = t
+        elif re.search(r"/support/solutions/\d+$", href) and not category:   # sections link without a "Section:" label
+            category = t.removeprefix("Section:").strip()
 
     out: list[str] = []
     images: list[ImageRef] = []
