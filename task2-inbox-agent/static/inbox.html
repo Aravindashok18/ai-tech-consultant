@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inbox Agent</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1c1c1a;--card:#fff;--mut:#6b6b66;--ac:#2f5fd0;--bd:#e2e2dc;--ok:#15803d;--warn:#b45309}
+@media(prefers-color-scheme:dark){:root{--bg:#161616;--fg:#eee;--card:#222;--mut:#9a9a94;--ac:#7aa2ff;--bd:#333;--ok:#4ade80;--warn:#f0a050}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+.wrap{display:grid;grid-template-columns:300px 1fr 280px;gap:12px;padding:12px;min-height:100vh}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}
+.row{padding:8px;border-bottom:1px solid var(--bd);cursor:pointer}.row:hover{background:var(--bg)}
+.tag{font-size:11px;border:1px solid var(--bd);border-radius:20px;padding:1px 8px;color:var(--mut);margin-right:4px}
+.warn{color:var(--warn)}.ok{color:var(--ok)}.mut{color:var(--mut);font-size:13px}
+textarea,input{width:100%;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:inherit}
+textarea{min-height:240px}button{padding:9px 14px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer;margin:6px 6px 0 0}
+button.g{background:none;color:var(--mut);border:1px solid var(--bd)}h3{margin:4px 0 8px}
+.bar{height:6px;background:var(--bd);border-radius:3px}.bar i{display:block;height:6px;background:var(--ac);border-radius:3px}
+</style></head><body><div class="wrap">
+<div class="card"><h3>Inbox</h3><div id="list"></div>
+<details><summary class="mut">Simulate a new email</summary>
+<input id="ns" placeholder="From (email)"><input id="nj" placeholder="Subject"><textarea id="nb" style="min-height:90px" placeholder="Body"></textarea>
+<button onclick="addEmail()">Receive</button></details></div>
+<div class="card" id="detail"><p class="mut">Pick an email.</p></div>
+<div><div class="card"><h3>Autopilot</h3><div id="auto"></div></div><div class="card" style="margin-top:12px"><h3>What it learned</h3><div id="rules"></div></div></div>
+</div><script>
+const $=id=>document.getElementById(id),esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const j=(u,o)=>fetch(u,o).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+const post=(u,b)=>j(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})});
+let cur=null;
+async function refresh(){
+ const l=await j('/v1/emails');$('list').innerHTML=l.map(e=>`<div class=row onclick="open_(${e.id})"><b>${esc(e.subject)}</b><br><span class=tag>${e.kind||'?'}</span><span class="tag ${e.status=='auto_sent'?'ok':''}">${e.status}</span><span class=mut>${esc(e.sender_name)}</span></div>`).join('')||'<p class=mut>Empty.</p>';
+ const a=await j('/v1/autonomy');$('auto').innerHTML=a.map(k=>`<div style="margin-bottom:8px"><span>${k.kind}</span> <span class=mut>${k.never_auto?'always reviewed':k.enabled?'<b class=ok>auto-sends</b>':k.streak+'/'+k.needed}</span><div class=bar><i style="width:${k.never_auto?0:Math.min(100,100*k.streak/k.needed)}%"></i></div>${k.revoked_reason?`<div class="mut warn">lost: ${esc(k.revoked_reason)}</div>`:''}</div>`).join('');
+ const r=await j('/v1/rules');$('rules').innerHTML=r.map(x=>`<div class=mut style="margin-bottom:6px">${x.active?'':'<s>'}${esc(x.text)}${x.active?'':'</s>'} <i>(${x.kind||'all'})</i> <a href="#" onclick="tog(${x.id},${!x.active});return false">${x.active?'undo':'restore'}</a></div>`).join('')||'<p class=mut>Nothing yet. It learns from your edits.</p>'}
+async function tog(id,f){await post(`/v1/rules/${id}/active/${f}`);refresh()}
+async function open_(id){cur=await j('/v1/emails/'+id);const e=cur.email,d=cur.draft;
+ const flags=JSON.parse(e.risk_flags||'[]');
+ $('detail').innerHTML=`<h3>${esc(e.subject)}</h3><div class=mut>${esc(e.sender_name)} &lt;${esc(e.sender)}&gt; <span class=tag>${e.kind}</span><span class=tag>${e.urgency}</span><span class=tag>${e.sentiment}</span>${flags.map(f=>`<span class="tag warn">${f}</span>`).join('')}</div>
+ <p style="white-space:pre-wrap">${esc(e.body)}</p><hr>`+(d?`<div class=mut>Draft · confidence ${(d.confidence*100).toFixed(0)}%${d.needs_human?` · <b class=warn>check: ${esc(d.needs_human)}</b>`:''}</div><textarea id=fb>${esc(d.body)}</textarea>
+ ${e.status=='sent'?'<p class=ok>Sent.</p>':e.status=='auto_sent'?`<p class=ok>Sent automatically.</p><button onclick="rev(${e.id},'ok')">Looks good</button><button class=g onclick="rev(${e.id},'bad')">That was wrong</button>`:`<button onclick="send(${e.id},false)">Send</button><button class=g onclick="send(${e.id},true)">Send my own reply</button>`}`:`<p class=mut>${e.status=='spam'?'Marked as spam.':'No draft ('+e.status+'). Write a reply:'}</p>`)}
+async function send(id,own){const t=$('fb').value;const r=await post(`/v1/emails/${id}/resolve`,{final_body:t===cur.draft.body?null:t,own_reply:own});
+ alert(r.action==='sent_unchanged'?'Sent. Counts toward autopilot.':'Sent. Learned '+r.lessons.length+' new rule(s).'+(r.event?' Autopilot '+r.event+'.':''));refresh();open_(id)}
+async function rev(id,v){await post(`/v1/emails/${id}/review`,{verdict:v,note:v=='bad'?(prompt('What was wrong?')||''):''});refresh();open_(id)}
+async function addEmail(){await post('/v1/emails',{sender:$('ns').value,subject:$('nj').value,body:$('nb').value});refresh()}
+refresh();
+</script></body></html>
