@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Knowledge Brain</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1c1c1a;--card:#fff;--mut:#6b6b66;--ac:#2f5fd0;--bd:#e2e2dc;--warn:#b45309}
+@media(prefers-color-scheme:dark){:root{--bg:#161616;--fg:#eee;--card:#222;--mut:#9a9a94;--ac:#7aa2ff;--bd:#333;--warn:#f0a050}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px}
+nav a{color:var(--ac);margin-right:12px;font-size:14px}
+#log{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.m{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;white-space:pre-wrap}
+.u{align-self:flex-end;background:var(--ac);color:#fff;border:0;max-width:80%}
+.src{font-size:13px;color:var(--mut);margin-top:8px}.src a{color:var(--ac)}
+.idk{border-color:var(--warn)}.idk b{color:var(--warn)}
+form{display:flex;gap:8px}input{flex:1;padding:12px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font:inherit}
+button{padding:12px 18px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer}
+button.s{background:none;color:var(--mut);padding:2px 6px;font-size:13px;border:1px solid var(--bd)}
+img.shot{max-width:100%;border-radius:6px;margin-top:6px;border:1px solid var(--bd)}
+</style></head><body><main>
+<nav><a href="/">Ask</a><a href="/experts">Expert queue</a><a href="/docs">API docs</a></nav>
+<h1>Ask the help center</h1>
+<div id="log"></div>
+<form id="f"><input id="q" placeholder="e.g. How do I change my membership prices?" autocomplete="off" required><button>Ask</button></form>
+</main><script>
+const log=document.getElementById('log'),hist=[];
+function add(cls,html){const d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;log.appendChild(d);d.scrollIntoView();return d}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('f').onsubmit=async e=>{e.preventDefault();const q=document.getElementById('q');const text=q.value;q.value='';
+ add('u',esc(text));const w=add('','Thinking…');
+ try{const r=await fetch('/v1/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:text,history:hist})});
+ if(!r.ok)throw new Error(r.status);const a=await r.json();
+ hist.push({role:'user',content:text},{role:'assistant',content:a.answer});
+ let h=a.abstained?`<b>I don't know.</b> ${esc(a.answer)}`:esc(a.answer);
+ if(a.sources.length){h+='<div class="src">Sources: '+a.sources.map(s=>s.url.startsWith('http')?`<a target=_blank href="${s.url}">${esc(s.title)}</a>`:`${esc(s.title)}`).join(' · ')+'</div>';
+  a.sources.filter(s=>s.image_url).forEach(s=>h+=`<img class=shot src="${s.image_url}" alt="screenshot">`)}
+ h+=`<div class="src">${a.abstained?'Sent to a human expert (task #'+a.task_id+')':a.mode+' · '+a.latency_ms+' ms'} <button class=s onclick="fb(this,true)">helpful</button> <button class=s onclick="fb(this,false)">not helpful</button></div>`;
+ w.className='m'+(a.abstained?' idk':'');w.innerHTML=h;w.dataset.q=text;w.dataset.a=a.answer;
+ }catch(err){w.textContent='Something went wrong ('+err.message+'). Please try again.'}};
+async function fb(btn,ok){const m=btn.closest('.m');await fetch('/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:m.dataset.q,answer:m.dataset.a,helpful:ok})});btn.parentNode.textContent='Thanks for the feedback.'}
+</script></body></html>

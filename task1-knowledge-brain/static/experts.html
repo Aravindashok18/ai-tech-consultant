@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Expert queue</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1c1c1a;--card:#fff;--mut:#6b6b66;--ac:#2f5fd0;--bd:#e2e2dc}
+@media(prefers-color-scheme:dark){:root{--bg:#161616;--fg:#eee;--card:#222;--mut:#9a9a94;--ac:#7aa2ff;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:16px}
+nav a{color:var(--ac);margin-right:12px;font-size:14px}
+.t{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:12px 0}
+.mut{color:var(--mut);font-size:13px}textarea{width:100%;box-sizing:border-box;min-height:80px;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:inherit}
+button{margin-top:8px;padding:10px 16px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer}
+</style></head><body><main>
+<nav><a href="/">Ask</a><a href="/experts">Expert queue</a><a href="/docs">API docs</a></nav>
+<h1>Questions waiting for an expert</h1><p class="mut">Your answer is saved to the memory immediately. The next person who asks gets it, with a "Expert answer" source.</p>
+<div id="list">Loading…</div></main><script>
+const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function load(){const r=await (await fetch('/v1/tasks?status=open')).json();const l=document.getElementById('list');
+ l.innerHTML=r.length?'':'<p>Nothing waiting. 🎉</p>';
+ r.forEach(t=>{const d=document.createElement('div');d.className='t';
+ d.innerHTML=`<b>${esc(t.question)}</b><div class="mut">asked ${t.asked_count}× · ${esc(t.reason)}</div><textarea placeholder="Write the correct answer"></textarea><button>Save answer</button>`;
+ d.querySelector('button').onclick=async()=>{const a=d.querySelector('textarea').value.trim();if(a.length<5)return;
+  const x=await fetch(`/v1/tasks/${t.id}/answer`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({answer:a})});
+  if(x.ok){d.innerHTML='<b>Saved.</b> It is now part of the memory.'}else alert('Failed: '+x.status)};
+ l.appendChild(d)})}
+load();
+</script></body></html>

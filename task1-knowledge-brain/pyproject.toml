@@ -1,0 +1,19 @@
+[project]
+name = "knowledge-brain"
+version = "0.1.0"
+description = "Task 1: self-updating help-center memory, chatbot and API"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115", "uvicorn[standard]>=0.30", "httpx>=0.27", "selectolax>=0.3.21",
+  "anthropic>=0.40", "fastembed>=0.4", "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "respx>=0.21"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["brain"]
